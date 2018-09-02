@@ -56,7 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimmplePassThrough.cs" />
+    <Compile Include="CustomObject.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="SimplePassThrough.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
