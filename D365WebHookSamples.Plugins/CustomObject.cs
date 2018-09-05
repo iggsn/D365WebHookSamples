@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace D365WebHookSamples.Plugins
 {
-    [KnownType(typeof(Data))]
+    //[KnownType(typeof(Data))]
     public class CustomObject : IPlugin
     {
         #region Secure/Unsecure Configuration Setup
@@ -36,20 +36,27 @@ namespace D365WebHookSamples.Plugins
             {
                 var myContext = context;
 
-                Data myData = new Data();
-                if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity)
+               /* Data myData = new Data();
+                if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity entity)
                 {
-                    myData.Contact = context.InputParameters["Target"] as Entity;
+                    myData.Contact = entity;
                     myData.Success = true;
                 }
                 else
                 {
                     myData.Success = false;
-                }
-                myContext.OutputParameters.Add(new KeyValuePair<string, object>("MyData", "SomeString"));
+                }*/
+
+                var myEntity = new Entity("dummy");
+                myEntity.Attributes.Add("mybool", true);
+                myEntity.Attributes.Add("mystring", "sometext");
+
+
+                myContext.OutputParameters.Add(new KeyValuePair<string, object>("MyData", myEntity));
+                myContext.SharedVariables.Add(new KeyValuePair<string, object>("MyShare", myEntity));
 
                 tracingService.Trace("Posting the execution context.");
-
+                
                 string response = cloudService.Execute(new EntityReference("serviceendpoint", serviceEndpointId), myContext);
 
                 if (!string.IsNullOrEmpty(response))
